@@ -65,7 +65,7 @@
         <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
             
             <!-- Left: Logo & Title -->
-            <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('home')">
+            <div class="flex items-center gap-3 cursor-pointer">
                 <div class="w-10 h-10 rounded-xl bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-xl shadow-md overflow-hidden relative">
                     <svg viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                         <path d="M12 3c-3.5 0-6 2.5-6 6 0 1.5.5 2.8 1.4 3.9C6.5 13.9 6 15.4 6 17c0 2.2 1.8 4 4 4h4c2.2 0 4-1.8 4-4 0-1.6-.5-3.1-1.4-4.1.9-1.1 1.4-2.4 1.4-3.9 0-3.5-2.5-6-6-6zm0 2c2.2 0 4 1.8 4 4s-1.8 4-4 4-4-1.8-4-4 1.8-4 4-4zm-7 13c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2v1H5v-1z"/>
@@ -120,10 +120,11 @@
             <div class="bg-white dark:bg-zinc-900 border border-gray-200/80 dark:border-zinc-800 rounded-2xl p-4 shadow-sm">
                 <h3 class="font-semibold text-sm mb-3 px-2 text-gray-900 dark:text-white" data-i18n="navigation_title">Навігація</h3>
                 <nav class="flex flex-col gap-1">
-                    <button id="navHomeBtn" onclick="navigateTo('home')" class="nav-btn active flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium bg-black text-white dark:bg-white dark:text-black transition-all text-left">
+                    <button id="navHomeBtn" class="nav-btn active flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium bg-black text-white dark:bg-white dark:text-black transition-all text-left">
                         <i class="fa-solid fa-house w-5 text-center"></i> <span data-i18n="nav_home">Головна</span>
                     </button>
-                    <button id="navAllCategoriesBtn" onclick="navigateTo('all-categories')" class="nav-btn flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-all text-left">
+                    <!-- Кнопка залишена, але вона нічого не робить -->
+                    <button id="navAllCategoriesBtn" onclick="event.preventDefault()" class="nav-btn flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-all text-left cursor-default">
                         <i class="fa-solid fa-list-ul w-5 text-center"></i> <span data-i18n="nav_all_categories">Всі категорії</span>
                     </button>
                 </nav>
@@ -167,7 +168,7 @@
             </div>
         </aside>
 
-        <!-- PAGE 1: HOME PAGE -->
+        <!-- PAGE: HOME PAGE -->
         <main id="pageHome" class="flex-1 flex flex-col gap-8 min-w-0">
             <!-- Banner Section -->
             <section class="w-full bg-gradient-to-r from-zinc-900 via-zinc-800 to-black text-white rounded-3xl p-6 md:p-10 relative overflow-hidden shadow-lg flex flex-col md:flex-row items-center justify-between gap-6">
@@ -176,7 +177,7 @@
                     <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider" data-i18n="banner_tag">Великий розпродаж</span>
                     <h1 class="text-2xl md:text-4xl font-bold tracking-tight mt-3" data-i18n="banner_title">Електроніка майбутнього зі знижкою до -40%</h1>
                     <p class="text-xs md:text-sm text-zinc-300 mt-2" data-i18n="banner_desc">Оновіть свій гаджет-парк разом зі «Світом електроніки». Тільки оригінальна продукція та офіційна гарантія.</p>
-                    <button onclick="navigateTo('all-categories')" class="mt-5 bg-white text-black text-xs md:text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-zinc-200 transition-all shadow-md" data-i18n="banner_btn">
+                    <button onclick="event.preventDefault()" class="mt-5 bg-white text-black text-xs md:text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-zinc-200 transition-all shadow-md" data-i18n="banner_btn">
                         Перейти до каталогу
                     </button>
                 </div>
@@ -226,34 +227,6 @@
                     </div>
                 </div>
             </section>
-        </main>
-
-        <!-- PAGE 2: ALL CATEGORIES / CATALOG (Grid 3 per row, initially 3 rows = 9 items) -->
-        <main id="pageAllCategories" class="flex-1 flex-col gap-6 min-w-0 hidden">
-            <div class="flex items-center justify-between border-b border-gray-200 dark:border-zinc-800 pb-4">
-                <div>
-                    <h1 class="text-2xl font-bold tracking-tight" id="catalogPageTitle" data-i18n="all_categories_title">Каталог товарів</h1>
-                    <p class="text-xs text-gray-500 dark:text-zinc-400 mt-1" id="catalogCountText">Знайдено товарів</p>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button onclick="resetCategoryFilter()" class="text-xs text-gray-500 hover:text-black dark:hover:text-white underline" data-i18n="reset_filter">
-                        Скинути фільтр
-                    </button>
-                </div>
-            </div>
-
-            <!-- Product Grid: Exactly 3 items per row on desktop -->
-            <div id="catalogGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Injected via JS -->
-            </div>
-
-            <!-- Show All / Load More Button -->
-            <div class="flex justify-center my-6">
-                <button id="showMoreBtn" onclick="showAllProducts()" class="bg-black text-white dark:bg-white dark:text-black font-semibold text-xs md:text-sm px-8 py-3 rounded-full hover:opacity-80 transition-all shadow-md flex items-center gap-2">
-                    <span data-i18n="show_all_btn">Показати все</span>
-                    <i class="fa-solid fa-chevron-down text-xs"></i>
-                </button>
-            </div>
         </main>
 
     </div>
@@ -399,9 +372,6 @@
                 banner_btn: "Перейти до каталогу",
                 sales_header: "Sales",
                 new_header: "New products",
-                all_categories_title: "Каталог товарів",
-                reset_filter: "Скинути фільтр",
-                show_all_btn: "Показати все",
                 footer_rights: "© 2026 Всі права захищені. Офіційний інтернет-магазин.",
                 footer_contact_title: "Контакти",
                 footer_address_title: "Адреса",
@@ -444,9 +414,6 @@
                 banner_btn: "Go to Catalog",
                 sales_header: "Sales",
                 new_header: "New products",
-                all_categories_title: "Product Catalog",
-                reset_filter: "Reset filter",
-                show_all_btn: "Show all",
                 footer_rights: "© 2026 All rights reserved. Official online store.",
                 footer_contact_title: "Contacts",
                 footer_address_title: "Address",
@@ -470,11 +437,8 @@
         };
 
         let currentLang = 'uk';
-        let currentPage = 'home'; // 'home' or 'all-categories'
-        let displayLimit = 9; // Initially 3 rows * 3 columns = 9 items
-        let isShowingAll = false;
 
-        // Expanded products database (18 items for adequate rows)
+        // Products database
         const products = [
             {
                 id: 1,
@@ -607,43 +571,10 @@
                 oldPrice: 2500,
                 isNew: true,
                 img: 'https://images.unsplash.com/photo-1622979135225-d2ba269bc1df?w=600&auto=format&fit=crop&q=80'
-            },
-            {
-                id: 13,
-                category: 'smartphones',
-                name: 'Смартфон Google Pixel 9 Pro XL...',
-                fullName: 'Смартфон Google Pixel 9 Pro XL 256GB Obsidian',
-                details: 'Чистий Android з інтеграцією штучного інтелекту Gemini та найкращою фотокамерою на ринку.',
-                price: 44999,
-                oldPrice: 48999,
-                isNew: false,
-                img: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=600&auto=format&fit=crop&q=80'
-            },
-            {
-                id: 14,
-                category: 'laptops',
-                name: 'Ноутбук Lenovo Legion Pro 7i...',
-                fullName: 'Ноутбук Lenovo Legion Pro 7i Core i9 32GB 2TB RTX 4090',
-                details: 'Максимальна геймерська потужність, рідинне охолодження Coldfront та екран 240Hz WQXGA.',
-                price: 119999,
-                oldPrice: 129999,
-                isNew: false,
-                img: 'https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=600&auto=format&fit=crop&q=80'
-            },
-            {
-                id: 15,
-                category: 'consoles',
-                name: 'Консоль Nintendo Switch OLED Model...',
-                fullName: 'Ігрова консоль Nintendo Switch OLED Model White Set',
-                details: 'Яскравий 7-дюймовий OLED екран, регульована підставка та оновлена док-станція з LAN портом.',
-                price: 14999,
-                oldPrice: 16499,
-                isNew: false,
-                img: 'https://images.unsplash.com/photo-1578303512597-81e6cc155b3e?w=600&auto=format&fit=crop&q=80'
             }
         ];
 
-        // Default initial reviews database stored in LocalStorage
+        // Default initial reviews database
         const defaultReviews = {
             1: [
                 { author: "Артем М.", rating: 5, date: "12.10.2026", text: "Збірка монстр! Усі ігри літають на ультра налаштуваннях." },
@@ -684,43 +615,8 @@
             updateCartUI();
         };
 
-        // Navigation function: Switch between Home Page and All Categories Page
-        function navigateTo(page) {
-            currentPage = page;
-            const pageHome = document.getElementById('pageHome');
-            const pageAllCat = document.getElementById('pageAllCategories');
-            const navHomeBtn = document.getElementById('navHomeBtn');
-            const navAllCatBtn = document.getElementById('navAllCategoriesBtn');
-
-            if (page === 'home') {
-                pageHome.classList.remove('hidden');
-                pageAllCat.classList.add('hidden');
-                
-                navHomeBtn.className = "nav-btn active flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium bg-black text-white dark:bg-white dark:text-black transition-all text-left";
-                navAllCatBtn.className = "nav-btn flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-all text-left";
-            } else {
-                pageHome.classList.add('hidden');
-                pageAllCat.classList.remove('hidden');
-                
-                navAllCatBtn.className = "nav-btn active flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium bg-black text-white dark:bg-white dark:text-black transition-all text-left";
-                navHomeBtn.className = "nav-btn flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-all text-left";
-            }
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            renderProducts();
-        }
-
-        // Render products for Page 1 & Page 2
+        // Render products
         function renderProducts() {
-            if (currentPage === 'home') {
-                renderHomePageProducts();
-            } else {
-                renderCatalogPageProducts();
-            }
-        }
-
-        // Home Page Rendering (Sales & New Products horizontal sliders)
-        function renderHomePageProducts() {
             const salesContainer = document.getElementById('salesRow');
             const newContainer = document.getElementById('newProductsRow');
 
@@ -739,63 +635,13 @@
             if (salesProducts.length === 0) {
                 salesContainer.innerHTML = `<p class="text-xs text-gray-400 py-4 px-2">Товарів не знайдено</p>`;
             } else {
-                salesProducts.forEach(p => salesContainer.appendChild(createProductCard(p, 'horizontal')));
+                salesProducts.forEach(p => salesContainer.appendChild(createProductCard(p)));
             }
 
             if (newProducts.length === 0) {
                 newContainer.innerHTML = `<p class="text-xs text-gray-400 py-4 px-2">Товарів не знайдено</p>`;
             } else {
-                newProducts.forEach(p => newContainer.appendChild(createProductCard(p, 'horizontal')));
-            }
-        }
-
-        // Catalog Page Rendering (3 Cards per row grid)
-        function renderCatalogPageProducts() {
-            const grid = document.getElementById('catalogGrid');
-            const titleEl = document.getElementById('catalogPageTitle');
-            const countEl = document.getElementById('catalogCountText');
-            const showMoreBtn = document.getElementById('showMoreBtn');
-
-            grid.innerHTML = '';
-
-            const filtered = products.filter(p => {
-                const matchCat = (activeCategory === 'all' || p.category === activeCategory);
-                const matchSearch = p.fullName.toLowerCase().includes(searchQuery.toLowerCase()) || p.name.toLowerCase().includes(searchQuery.toLowerCase());
-                return matchCat && matchSearch;
-            });
-
-            countEl.textContent = `Знайдено товарів: ${filtered.length}`;
-
-            if (activeCategory !== 'all') {
-                const catNames = {
-                    smartphones: "Смартфони",
-                    computers: "Комп'ютери",
-                    laptops: "Ноутбуки",
-                    consoles: "Консолі",
-                    games: "Ігри",
-                    subscriptions: "Підписки та коди"
-                };
-                titleEl.textContent = catNames[activeCategory] || "Каталог товарів";
-            } else {
-                titleEl.textContent = translations[currentLang].all_categories_title;
-            }
-
-            if (filtered.length === 0) {
-                grid.innerHTML = `<p class="text-sm text-gray-400 py-8 col-span-3 text-center">Товарів за вашим запитом не знайдено.</p>`;
-                showMoreBtn.classList.add('hidden');
-                return;
-            }
-
-            const visibleItems = isShowingAll ? filtered : filtered.slice(0, displayLimit);
-
-            visibleItems.forEach(p => {
-                grid.appendChild(createProductCard(p, 'grid'));
-            });
-
-            if (!isShowingAll && filtered.length > displayLimit) {
-                showMoreBtn.classList.remove('hidden');
-            } else {
-                showMoreBtn.classList.add('hidden');
+                newProducts.forEach(p => newContainer.appendChild(createProductCard(p)));
             }
         }
 
@@ -811,16 +657,12 @@
         }
 
         // Create product card element
-        function createProductCard(p, mode) {
+        function createProductCard(p) {
             const card = document.createElement('div');
             const hasDiscount = p.oldPrice > p.price;
             const ratingInfo = getProductRating(p.id);
 
-            if (mode === 'horizontal') {
-                card.className = 'product-card flex-shrink-0 w-64 bg-white dark:bg-zinc-900 border border-gray-200/80 dark:border-zinc-800 rounded-2xl p-4 flex flex-col justify-between relative shadow-sm cursor-pointer';
-            } else {
-                card.className = 'product-card w-full bg-white dark:bg-zinc-900 border border-gray-200/80 dark:border-zinc-800 rounded-2xl p-4 flex flex-col justify-between relative shadow-sm cursor-pointer';
-            }
+            card.className = 'product-card flex-shrink-0 w-64 bg-white dark:bg-zinc-900 border border-gray-200/80 dark:border-zinc-800 rounded-2xl p-4 flex flex-col justify-between relative shadow-sm cursor-pointer';
 
             card.innerHTML = `
                 <div>
@@ -863,37 +705,23 @@
             return card;
         }
 
-        // Show all products button action
-        function showAllProducts() {
-            isShowingAll = true;
-            renderCatalogPageProducts();
-        }
-
         // Filter by category
         function filterCategory(cat) {
-            activeCategory = cat;
-            document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.classList.remove('active', 'bg-gray-100', 'dark:bg-zinc-800', 'text-black', 'dark:text-white');
-                btn.classList.add('text-gray-600', 'dark:text-zinc-400');
-            });
-            event.currentTarget.classList.add('active', 'bg-gray-100', 'dark:bg-zinc-800', 'text-black', 'dark:text-white');
-            event.currentTarget.classList.remove('text-gray-600', 'dark:text-zinc-400');
-
-            if (currentPage === 'home') {
-                navigateTo('all-categories');
+            if (activeCategory === cat) {
+                activeCategory = 'all';
+                document.querySelectorAll('.cat-btn').forEach(btn => {
+                    btn.classList.remove('active', 'bg-gray-100', 'dark:bg-zinc-800', 'text-black', 'dark:text-white');
+                    btn.classList.add('text-gray-600', 'dark:text-zinc-400');
+                });
             } else {
-                isShowingAll = false;
-                renderProducts();
+                activeCategory = cat;
+                document.querySelectorAll('.cat-btn').forEach(btn => {
+                    btn.classList.remove('active', 'bg-gray-100', 'dark:bg-zinc-800', 'text-black', 'dark:text-white');
+                    btn.classList.add('text-gray-600', 'dark:text-zinc-400');
+                });
+                event.currentTarget.classList.add('active', 'bg-gray-100', 'dark:bg-zinc-800', 'text-black', 'dark:text-white');
+                event.currentTarget.classList.remove('text-gray-600', 'dark:text-zinc-400');
             }
-        }
-
-        function resetCategoryFilter() {
-            activeCategory = 'all';
-            isShowingAll = false;
-            document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.classList.remove('active', 'bg-gray-100', 'dark:bg-zinc-800', 'text-black', 'dark:text-white');
-                btn.classList.add('text-gray-600', 'dark:text-zinc-400');
-            });
             renderProducts();
         }
 
