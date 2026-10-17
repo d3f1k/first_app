@@ -33,7 +33,7 @@
             transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
         }
         .product-card:hover {
-            transform: scale(1.03);
+            transform: translateY(-4px) scale(1.01);
             z-index: 20;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
@@ -60,16 +60,15 @@
 </head>
 <body class="bg-[#f5f5f7] dark:bg-[#000000] text-[#1d1d1f] dark:text-[#f5f5f7] min-h-screen flex flex-col transition-colors duration-300 font-sans">
 
+    <!-- Header -->
     <header class="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-black/80 border-b border-gray-200 dark:border-zinc-800 px-4 lg:px-8 py-3">
         <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
             
-            <!-- Left: Logo & Title (Duck in VR headset) -->
-            <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+            <!-- Left: Logo & Title -->
+            <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('home')">
                 <div class="w-10 h-10 rounded-xl bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-xl shadow-md overflow-hidden relative">
-                    <!-- Duck SVG Icon wearing VR headset -->
                     <svg viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                         <path d="M12 3c-3.5 0-6 2.5-6 6 0 1.5.5 2.8 1.4 3.9C6.5 13.9 6 15.4 6 17c0 2.2 1.8 4 4 4h4c2.2 0 4-1.8 4-4 0-1.6-.5-3.1-1.4-4.1.9-1.1 1.4-2.4 1.4-3.9 0-3.5-2.5-6-6-6zm0 2c2.2 0 4 1.8 4 4s-1.8 4-4 4-4-1.8-4-4 1.8-4 4-4zm-7 13c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2v1H5v-1z"/>
-                        <!-- VR Goggles overlay representation -->
                         <path d="M8 8h8v3H8z" fill="none"/>
                     </svg>
                 </div>
@@ -81,29 +80,25 @@
 
             <!-- Center: Search Bar -->
             <div class="flex-1 max-w-md relative hidden sm:block">
-                <input type="text" id="searchInput" placeholder="search" oninput="handleSearch(this.value)" class="w-full bg-gray-100 dark:bg-zinc-900 border border-transparent focus:border-gray-300 dark:focus:border-zinc-700 text-sm rounded-full py-2 pl-10 pr-4 outline-none transition-all placeholder:text-gray-400 dark:placeholder:text-zinc-600 text-gray-900 dark:text-white">
+                <input type="text" id="searchInput" placeholder="Пошук товарів..." oninput="handleSearch(this.value)" class="w-full bg-gray-100 dark:bg-zinc-900 border border-transparent focus:border-gray-300 dark:focus:border-zinc-700 text-sm rounded-full py-2 pl-10 pr-4 outline-none transition-all placeholder:text-gray-400 dark:placeholder:text-zinc-600 text-gray-900 dark:text-white">
                 <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-2.5 text-gray-400 text-sm"></i>
             </div>
 
-            <!-- Right Controls: Theme, Lang, Cart, User Profile -->
+            <!-- Right Controls -->
             <div class="flex items-center gap-3">
-                <!-- Theme Toggle Button -->
-                <button onclick="toggleTheme()" class="w-9 h-9 rounded-full bg-gray-100 dark:bg-zinc-900 hover:bg-gray-200 dark:hover:bg-zinc-800 flex items-center justify-center text-sm transition-colors" title="Toggle Theme">
+                <button onclick="toggleTheme()" class="w-9 h-9 rounded-full bg-gray-100 dark:bg-zinc-900 hover:bg-gray-200 dark:hover:bg-zinc-800 flex items-center justify-center text-sm transition-colors" title="Змінити тему">
                     <i id="themeIcon" class="fa-solid fa-moon"></i>
                 </button>
 
-                <!-- Language Toggle Button -->
                 <button onclick="toggleLang()" id="langBtn" class="px-2.5 h-9 rounded-full bg-gray-100 dark:bg-zinc-900 hover:bg-gray-200 dark:hover:bg-zinc-800 text-xs font-medium transition-colors">
                     UA
                 </button>
 
-                <!-- Cart Button -->
                 <button onclick="toggleCartModal()" class="relative w-9 h-9 rounded-full bg-gray-100 dark:bg-zinc-900 hover:bg-gray-200 dark:hover:bg-zinc-800 flex items-center justify-center text-sm transition-colors">
                     <i class="fa-solid fa-bag-shopping"></i>
                     <span id="cartCount" class="absolute -top-1 -right-1 bg-black text-white dark:bg-white dark:text-black text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
                 </button>
 
-                <!-- User Profile & Balance -->
                 <div class="flex items-center gap-2 pl-2 border-l border-gray-200 dark:border-zinc-800">
                     <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Avatar" class="w-9 h-9 rounded-full object-cover border border-gray-300 dark:border-zinc-700">
                     <div class="hidden md:flex flex-col text-left">
@@ -116,17 +111,27 @@
         </div>
     </header>
 
+    <!-- Main Container -->
     <div class="max-w-7xl mx-auto w-full px-4 lg:px-8 py-6 flex-1 flex flex-col md:flex-row gap-6">
         
-        <!-- Left Aside (Categories & Ad Block) -->
+        <!-- Left Aside (Navigation & Categories) -->
         <aside class="w-full md:w-64 flex-shrink-0 flex flex-col gap-6">
-            <!-- Categories block -->
+            <!-- Navigation Block -->
             <div class="bg-white dark:bg-zinc-900 border border-gray-200/80 dark:border-zinc-800 rounded-2xl p-4 shadow-sm">
+                <h3 class="font-semibold text-sm mb-3 px-2 text-gray-900 dark:text-white" data-i18n="navigation_title">Навігація</h3>
+                <nav class="flex flex-col gap-1">
+                    <button id="navHomeBtn" onclick="navigateTo('home')" class="nav-btn active flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium bg-black text-white dark:bg-white dark:text-black transition-all text-left">
+                        <i class="fa-solid fa-house w-5 text-center"></i> <span data-i18n="nav_home">Головна</span>
+                    </button>
+                    <button id="navAllCategoriesBtn" onclick="navigateTo('all-categories')" class="nav-btn flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-all text-left">
+                        <i class="fa-solid fa-list-ul w-5 text-center"></i> <span data-i18n="nav_all_categories">Всі категорії</span>
+                    </button>
+                </nav>
+
+                <hr class="my-4 border-gray-200 dark:border-zinc-800">
+
                 <h3 class="font-semibold text-sm mb-3 px-2 text-gray-900 dark:text-white" data-i18n="categories_title">Категорії</h3>
                 <nav class="flex flex-col gap-1" id="categoryNav">
-                    <button onclick="filterCategory('all')" class="cat-btn active flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium bg-gray-100 dark:bg-zinc-800 text-black dark:text-white transition-all text-left">
-                        <i class="fa-solid fa-border-all w-5 text-center"></i> <span data-i18n="cat_all">Всі товари</span>
-                    </button>
                     <button onclick="filterCategory('smartphones')" class="cat-btn flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium text-gray-600 dark:text-zinc-400 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-all text-left">
                         <i class="fa-solid fa-mobile-screen-button w-5 text-center"></i> <span data-i18n="cat_smartphones">Смартфони</span>
                     </button>
@@ -148,7 +153,7 @@
                 </nav>
             </div>
 
-            <!-- Ad block with Image in Left Aside -->
+            <!-- Ad block -->
             <div class="bg-gradient-to-br from-zinc-900 to-black text-white rounded-2xl p-5 shadow-sm relative overflow-hidden flex flex-col justify-between">
                 <div class="absolute inset-0 opacity-25 bg-cover bg-center pointer-events-none" style="background-image: url('https://images.unsplash.com/photo-1593508512255-86ab42a8e620?w=600&auto=format&fit=crop&q=80');"></div>
                 <div class="relative z-10">
@@ -162,17 +167,17 @@
             </div>
         </aside>
 
-        <!-- Central Content (Full width right side, no right aside) -->
-        <main class="flex-1 flex flex-col gap-8 min-w-0">
-            
+        <!-- PAGE 1: HOME PAGE -->
+        <main id="pageHome" class="flex-1 flex flex-col gap-8 min-w-0">
+            <!-- Banner Section -->
             <section class="w-full bg-gradient-to-r from-zinc-900 via-zinc-800 to-black text-white rounded-3xl p-6 md:p-10 relative overflow-hidden shadow-lg flex flex-col md:flex-row items-center justify-between gap-6">
                 <div class="absolute right-0 top-0 w-1/2 h-full opacity-30 bg-cover bg-center pointer-events-none" style="background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&auto=format&fit=crop&q=80');"></div>
                 <div class="z-10 max-w-lg">
                     <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider" data-i18n="banner_tag">Великий розпродаж</span>
                     <h1 class="text-2xl md:text-4xl font-bold tracking-tight mt-3" data-i18n="banner_title">Електроніка майбутнього зі знижкою до -40%</h1>
                     <p class="text-xs md:text-sm text-zinc-300 mt-2" data-i18n="banner_desc">Оновіть свій гаджет-парк разом зі «Світом електроніки». Тільки оригінальна продукція та офіційна гарантія.</p>
-                    <button onclick="scrollToSales()" class="mt-5 bg-white text-black text-xs md:text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-zinc-200 transition-all shadow-md" data-i18n="banner_btn">
-                        Дивитися товари
+                    <button onclick="navigateTo('all-categories')" class="mt-5 bg-white text-black text-xs md:text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-zinc-200 transition-all shadow-md" data-i18n="banner_btn">
+                        Перейти до каталогу
                     </button>
                 </div>
                 <div class="z-10 flex-shrink-0 text-6xl md:text-8xl text-zinc-700/50">
@@ -180,6 +185,7 @@
                 </div>
             </section>
 
+            <!-- Sales Section -->
             <section class="flex flex-col gap-4">
                 <div class="flex items-center justify-between">
                     <h2 class="text-xl font-bold tracking-tight" data-i18n="sales_header">Sales</h2>
@@ -193,7 +199,6 @@
                     </div>
                 </div>
 
-                <!-- Frame box with horizontally scrolling product cards -->
                 <div class="border border-gray-200 dark:border-zinc-800 rounded-2xl p-4 bg-white/50 dark:bg-zinc-900/50 relative">
                     <div id="salesRow" class="flex gap-4 overflow-x-auto no-scrollbar pb-2 pt-1 px-1 scroll-smooth">
                         <!-- Sales products injected via JS -->
@@ -201,6 +206,7 @@
                 </div>
             </section>
 
+            <!-- New Products Section -->
             <section class="flex flex-col gap-4">
                 <div class="flex items-center justify-between">
                     <h2 class="text-xl font-bold tracking-tight" data-i18n="new_header">New products</h2>
@@ -214,17 +220,45 @@
                     </div>
                 </div>
 
-                <!-- Frame box with horizontally scrolling product cards for New products -->
                 <div class="border border-gray-200 dark:border-zinc-800 rounded-2xl p-4 bg-white/50 dark:bg-zinc-900/50 relative">
                     <div id="newProductsRow" class="flex gap-4 overflow-x-auto no-scrollbar pb-2 pt-1 px-1 scroll-smooth">
                         <!-- New products injected via JS -->
                     </div>
                 </div>
             </section>
-
         </main>
+
+        <!-- PAGE 2: ALL CATEGORIES / CATALOG (Grid 3 per row, initially 3 rows = 9 items) -->
+        <main id="pageAllCategories" class="flex-1 flex-col gap-6 min-w-0 hidden">
+            <div class="flex items-center justify-between border-b border-gray-200 dark:border-zinc-800 pb-4">
+                <div>
+                    <h1 class="text-2xl font-bold tracking-tight" id="catalogPageTitle" data-i18n="all_categories_title">Каталог товарів</h1>
+                    <p class="text-xs text-gray-500 dark:text-zinc-400 mt-1" id="catalogCountText">Знайдено товарів</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="resetCategoryFilter()" class="text-xs text-gray-500 hover:text-black dark:hover:text-white underline" data-i18n="reset_filter">
+                        Скинути фільтр
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product Grid: Exactly 3 items per row on desktop -->
+            <div id="catalogGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Injected via JS -->
+            </div>
+
+            <!-- Show All / Load More Button -->
+            <div class="flex justify-center my-6">
+                <button id="showMoreBtn" onclick="showAllProducts()" class="bg-black text-white dark:bg-white dark:text-black font-semibold text-xs md:text-sm px-8 py-3 rounded-full hover:opacity-80 transition-all shadow-md flex items-center gap-2">
+                    <span data-i18n="show_all_btn">Показати все</span>
+                    <i class="fa-solid fa-chevron-down text-xs"></i>
+                </button>
+            </div>
+        </main>
+
     </div>
 
+    <!-- Footer -->
     <footer class="mt-auto border-t border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 py-8 px-4 lg:px-8 text-xs text-gray-500 dark:text-zinc-400">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex flex-col gap-1 items-center md:items-start">
@@ -251,7 +285,7 @@
         </div>
     </footer>
 
-    <!-- Centered Cart Modal with Backdrop Blur -->
+    <!-- Cart Modal -->
     <div id="cartModal" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-md hidden flex items-center justify-center p-4">
         <div class="w-full max-w-4xl bg-white dark:bg-zinc-900 rounded-3xl shadow-2xl p-6 flex flex-col justify-between max-h-[85vh] border border-gray-200 dark:border-zinc-800 animate-in fade-in zoom-in-95 duration-200">
             <div>
@@ -262,22 +296,15 @@
                     </button>
                 </div>
 
-                <!-- Two-column cart layout -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 max-h-[50vh] overflow-y-auto pr-1">
-                    <!-- Left column: Item Cards with Qty Controls (+ / -) -->
                     <div class="flex flex-col gap-3">
                         <h4 class="text-xs font-semibold text-gray-400 uppercase tracking-wider" data-i18n="cart_cards_title">Картки товарів</h4>
-                        <div id="cartItemsCardsList" class="flex flex-col gap-3">
-                            <!-- Injected via JS -->
-                        </div>
+                        <div id="cartItemsCardsList" class="flex flex-col gap-3"></div>
                     </div>
 
-                    <!-- Right column: Simple names list -->
                     <div class="flex flex-col gap-3 bg-gray-50 dark:bg-zinc-950/50 p-4 rounded-2xl border border-gray-200/60 dark:border-zinc-800/60">
                         <h4 class="text-xs font-semibold text-gray-400 uppercase tracking-wider" data-i18n="cart_names_title">Список назв</h4>
-                        <div id="cartItemsNamesList" class="flex flex-col gap-2 text-xs">
-                            <!-- Injected via JS -->
-                        </div>
+                        <div id="cartItemsNamesList" class="flex flex-col gap-2 text-xs"></div>
                     </div>
                 </div>
             </div>
@@ -294,19 +321,68 @@
         </div>
     </div>
 
+    <!-- Reviews Modal -->
+    <div id="reviewsModal" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="w-full max-w-2xl bg-white dark:bg-zinc-900 rounded-3xl shadow-2xl p-6 flex flex-col justify-between max-h-[90vh] border border-gray-200 dark:border-zinc-800">
+            <div>
+                <div class="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-zinc-800">
+                    <div class="flex items-center gap-3">
+                        <img id="reviewProductImg" class="w-10 h-10 rounded-xl object-cover" src="" alt="">
+                        <div>
+                            <h3 id="reviewProductName" class="font-bold text-sm text-gray-900 dark:text-white line-clamp-1">Назва товару</h3>
+                            <span id="reviewProductAvg" class="text-xs text-amber-500 font-semibold"><i class="fa-solid fa-star"></i> 0.0</span>
+                        </div>
+                    </div>
+                    <button onclick="toggleReviewsModal()" class="w-8 h-8 rounded-full bg-gray-100 dark:bg-zinc-800 flex items-center justify-center text-sm text-gray-700 dark:text-zinc-300 hover:bg-gray-200 dark:hover:bg-zinc-700 transition-colors">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- Reviews List Container -->
+                <div class="my-4 max-h-[40vh] overflow-y-auto pr-2 flex flex-col gap-3" id="reviewsList">
+                    <!-- Reviews injected via JS -->
+                </div>
+
+                <!-- Add Review Form -->
+                <div class="border-t border-gray-200 dark:border-zinc-800 pt-4 mt-2">
+                    <h4 class="font-semibold text-xs text-gray-900 dark:text-white mb-2" data-i18n="leave_review_title">Залишити відгук</h4>
+                    <div class="flex flex-col gap-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-gray-500" data-i18n="rating_label">Ваша оцінка:</span>
+                            <div class="flex gap-1 text-amber-400 cursor-pointer text-base" id="starRatingSelector">
+                                <i class="fa-solid fa-star select-star" onclick="setRating(1)"></i>
+                                <i class="fa-solid fa-star select-star" onclick="setRating(2)"></i>
+                                <i class="fa-solid fa-star select-star" onclick="setRating(3)"></i>
+                                <i class="fa-solid fa-star select-star" onclick="setRating(4)"></i>
+                                <i class="fa-solid fa-star select-star" onclick="setRating(5)"></i>
+                            </div>
+                        </div>
+                        <input type="text" id="reviewerName" placeholder="Ваше ім'я" class="w-full bg-gray-100 dark:bg-zinc-800 border-none rounded-xl p-2.5 text-xs outline-none text-gray-900 dark:text-white">
+                        <textarea id="reviewComment" rows="2" placeholder="Опишіть ваші враження від використання..." class="w-full bg-gray-100 dark:bg-zinc-800 border-none rounded-xl p-2.5 text-xs outline-none text-gray-900 dark:text-white resize-none"></textarea>
+                        <button onclick="submitReview()" class="bg-black text-white dark:bg-white dark:text-black font-semibold py-2 px-4 rounded-xl text-xs hover:opacity-80 transition-opacity self-end shadow" data-i18n="send_review">
+                            Надіслати відгук
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast Notification Box -->
     <div id="msgBox" class="fixed bottom-6 right-6 z-50 bg-black text-white dark:bg-white dark:text-black px-4 py-3 rounded-2xl shadow-2xl text-xs font-medium translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3">
         <i class="fa-solid fa-circle-check text-emerald-400"></i>
-        <span id="msgText">Товар додано до кошика</span>
+        <span id="msgText">Повідомлення</span>
     </div>
 
     <script>
-        // Translations dictionary
+        // Language dictionary
         const translations = {
             uk: {
                 store_name: "Світ електроніки",
+                navigation_title: "Навігація",
+                nav_home: "Головна",
+                nav_all_categories: "Всі категорії",
                 categories_title: "Категорії",
-                cat_all: "Всі товари",
                 cat_smartphones: "Смартфони",
                 cat_computers: "Комп'ютери",
                 cat_laptops: "Ноутбуки",
@@ -320,9 +396,12 @@
                 banner_tag: "Великий розпродаж",
                 banner_title: "Електроніка майбутнього зі знижкою до -40%",
                 banner_desc: "Оновіть свій гаджет-парк разом зі «Світом електроніки». Тільки оригінальна продукція та офіційна гарантія.",
-                banner_btn: "Дивитися товари",
+                banner_btn: "Перейти до каталогу",
                 sales_header: "Sales",
                 new_header: "New products",
+                all_categories_title: "Каталог товарів",
+                reset_filter: "Скинути фільтр",
+                show_all_btn: "Показати все",
                 footer_rights: "© 2026 Всі права захищені. Офіційний інтернет-магазин.",
                 footer_contact_title: "Контакти",
                 footer_address_title: "Адреса",
@@ -335,12 +414,20 @@
                 cart_checkout: "Оформити замовлення",
                 add_to_cart: "У кошик",
                 empty_cart: "Ваш кошик порожній",
-                checkout_success: "Замовлення успішно оформлено!"
+                checkout_success: "Замовлення успішно оформлено!",
+                reviews_btn: "Відгуки",
+                no_reviews: "Відгуків поки немає. Будьте першим!",
+                leave_review_title: "Залишити відгук",
+                rating_label: "Ваша оцінка:",
+                send_review: "Надіслати відгук",
+                review_added: "Дякуємо! Ваш відгук додано."
             },
             en: {
                 store_name: "World of Electronics",
+                navigation_title: "Navigation",
+                nav_home: "Home",
+                nav_all_categories: "All Categories",
                 categories_title: "Categories",
-                cat_all: "All products",
                 cat_smartphones: "Smartphones",
                 cat_computers: "Computers",
                 cat_laptops: "Laptops",
@@ -354,9 +441,12 @@
                 banner_tag: "Mega Sale",
                 banner_title: "Future Electronics up to -40% OFF",
                 banner_desc: "Upgrade your gear with World of Electronics. Only original products and official warranty.",
-                banner_btn: "View Products",
+                banner_btn: "Go to Catalog",
                 sales_header: "Sales",
                 new_header: "New products",
+                all_categories_title: "Product Catalog",
+                reset_filter: "Reset filter",
+                show_all_btn: "Show all",
                 footer_rights: "© 2026 All rights reserved. Official online store.",
                 footer_contact_title: "Contacts",
                 footer_address_title: "Address",
@@ -369,20 +459,28 @@
                 cart_checkout: "Proceed to Checkout",
                 add_to_cart: "Add to cart",
                 empty_cart: "Your cart is empty",
-                checkout_success: "Order successfully placed!"
+                checkout_success: "Order successfully placed!",
+                reviews_btn: "Reviews",
+                no_reviews: "No reviews yet. Be the first!",
+                leave_review_title: "Leave a review",
+                rating_label: "Your rating:",
+                send_review: "Submit review",
+                review_added: "Thank you! Your review has been added."
             }
         };
 
         let currentLang = 'uk';
+        let currentPage = 'home'; // 'home' or 'all-categories'
+        let displayLimit = 9; // Initially 3 rows * 3 columns = 9 items
+        let isShowingAll = false;
 
-        // Products database with high quality electronics images (Unsplash)
+        // Expanded products database (18 items for adequate rows)
         const products = [
-            // Sales items
             {
                 id: 1,
                 category: 'computers',
-                name: 'Комп\'ютер rtx 5060, amd ryzen 7 7700x, 32gb ram...',
-                fullName: 'Комп\'ютер rtx 5060, amd ryzen 7 7700x, 32gb ram, 1tb ssd, windows 11 pro',
+                name: 'Комп\'ютер RTX 5060, AMD Ryzen 7 7700X, 32GB RAM...',
+                fullName: 'Комп\'ютер RTX 5060, AMD Ryzen 7 7700X, 32GB RAM, 1TB SSD, Windows 11 Pro',
                 details: 'Топовий ігровий ПК з потужною відеокартою GeForce RTX 5060 та процесором Ryzen для максимальних налаштувань графіки.',
                 price: 48999,
                 oldPrice: 55999,
@@ -444,8 +542,6 @@
                 isNew: false,
                 img: 'https://images.unsplash.com/photo-1612287233302-3f1d5306716f?w=600&auto=format&fit=crop&q=80'
             },
-
-            // New products items (6 items)
             {
                 id: 7,
                 category: 'smartphones',
@@ -511,14 +607,64 @@
                 oldPrice: 2500,
                 isNew: true,
                 img: 'https://images.unsplash.com/photo-1622979135225-d2ba269bc1df?w=600&auto=format&fit=crop&q=80'
+            },
+            {
+                id: 13,
+                category: 'smartphones',
+                name: 'Смартфон Google Pixel 9 Pro XL...',
+                fullName: 'Смартфон Google Pixel 9 Pro XL 256GB Obsidian',
+                details: 'Чистий Android з інтеграцією штучного інтелекту Gemini та найкращою фотокамерою на ринку.',
+                price: 44999,
+                oldPrice: 48999,
+                isNew: false,
+                img: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=600&auto=format&fit=crop&q=80'
+            },
+            {
+                id: 14,
+                category: 'laptops',
+                name: 'Ноутбук Lenovo Legion Pro 7i...',
+                fullName: 'Ноутбук Lenovo Legion Pro 7i Core i9 32GB 2TB RTX 4090',
+                details: 'Максимальна геймерська потужність, рідинне охолодження Coldfront та екран 240Hz WQXGA.',
+                price: 119999,
+                oldPrice: 129999,
+                isNew: false,
+                img: 'https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=600&auto=format&fit=crop&q=80'
+            },
+            {
+                id: 15,
+                category: 'consoles',
+                name: 'Консоль Nintendo Switch OLED Model...',
+                fullName: 'Ігрова консоль Nintendo Switch OLED Model White Set',
+                details: 'Яскравий 7-дюймовий OLED екран, регульована підставка та оновлена док-станція з LAN портом.',
+                price: 14999,
+                oldPrice: 16499,
+                isNew: false,
+                img: 'https://images.unsplash.com/photo-1578303512597-81e6cc155b3e?w=600&auto=format&fit=crop&q=80'
             }
         ];
 
+        // Default initial reviews database stored in LocalStorage
+        const defaultReviews = {
+            1: [
+                { author: "Артем М.", rating: 5, date: "12.10.2026", text: "Збірка монстр! Усі ігри літають на ультра налаштуваннях." },
+                { author: "Ігор К.", rating: 4, date: "15.10.2026", text: "Чудовий ПК, але вентилятори трохи шумлять при навантаженні." }
+            ],
+            2: [
+                { author: "Олена В.", rating: 5, date: "01.10.2026", text: "Титановий корпус просто супер, дуже легкий та приємний на дотик!" }
+            ],
+            3: [
+                { author: "Дмитро", rating: 5, date: "05.10.2026", text: "Екран надзвичайний, компиляція коду займає лічені секунди." }
+            ]
+        };
+
+        let reviewsData = JSON.parse(localStorage.getItem('store_reviews')) || defaultReviews;
+        let selectedProductIdForReview = null;
+        let selectedStarRating = 5;
         let cart = [];
         let activeCategory = 'all';
         let searchQuery = '';
 
-        // Initialize App on window load & restore saved theme
+        // Initialize App
         window.onload = function() {
             const savedTheme = localStorage.getItem('theme') || 'light';
             const html = document.documentElement;
@@ -538,8 +684,43 @@
             updateCartUI();
         };
 
-        // Render product cards
+        // Navigation function: Switch between Home Page and All Categories Page
+        function navigateTo(page) {
+            currentPage = page;
+            const pageHome = document.getElementById('pageHome');
+            const pageAllCat = document.getElementById('pageAllCategories');
+            const navHomeBtn = document.getElementById('navHomeBtn');
+            const navAllCatBtn = document.getElementById('navAllCategoriesBtn');
+
+            if (page === 'home') {
+                pageHome.classList.remove('hidden');
+                pageAllCat.classList.add('hidden');
+                
+                navHomeBtn.className = "nav-btn active flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium bg-black text-white dark:bg-white dark:text-black transition-all text-left";
+                navAllCatBtn.className = "nav-btn flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-all text-left";
+            } else {
+                pageHome.classList.add('hidden');
+                pageAllCat.classList.remove('hidden');
+                
+                navAllCatBtn.className = "nav-btn active flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium bg-black text-white dark:bg-white dark:text-black transition-all text-left";
+                navHomeBtn.className = "nav-btn flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-all text-left";
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            renderProducts();
+        }
+
+        // Render products for Page 1 & Page 2
         function renderProducts() {
+            if (currentPage === 'home') {
+                renderHomePageProducts();
+            } else {
+                renderCatalogPageProducts();
+            }
+        }
+
+        // Home Page Rendering (Sales & New Products horizontal sliders)
+        function renderHomePageProducts() {
             const salesContainer = document.getElementById('salesRow');
             const newContainer = document.getElementById('newProductsRow');
 
@@ -555,45 +736,112 @@
             const salesProducts = filtered.filter(p => !p.isNew);
             const newProducts = filtered.filter(p => p.isNew);
 
-            // Render Sales
             if (salesProducts.length === 0) {
                 salesContainer.innerHTML = `<p class="text-xs text-gray-400 py-4 px-2">Товарів не знайдено</p>`;
             } else {
-                salesProducts.forEach(p => {
-                    salesContainer.appendChild(createProductCard(p));
-                });
+                salesProducts.forEach(p => salesContainer.appendChild(createProductCard(p, 'horizontal')));
             }
 
-            // Render New Products
             if (newProducts.length === 0) {
                 newContainer.innerHTML = `<p class="text-xs text-gray-400 py-4 px-2">Товарів не знайдено</p>`;
             } else {
-                newProducts.forEach(p => {
-                    newContainer.appendChild(createProductCard(p));
-                });
+                newProducts.forEach(p => newContainer.appendChild(createProductCard(p, 'horizontal')));
             }
         }
 
-        // Helper to create a single product card element
-        function createProductCard(p) {
+        // Catalog Page Rendering (3 Cards per row grid)
+        function renderCatalogPageProducts() {
+            const grid = document.getElementById('catalogGrid');
+            const titleEl = document.getElementById('catalogPageTitle');
+            const countEl = document.getElementById('catalogCountText');
+            const showMoreBtn = document.getElementById('showMoreBtn');
+
+            grid.innerHTML = '';
+
+            const filtered = products.filter(p => {
+                const matchCat = (activeCategory === 'all' || p.category === activeCategory);
+                const matchSearch = p.fullName.toLowerCase().includes(searchQuery.toLowerCase()) || p.name.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchCat && matchSearch;
+            });
+
+            countEl.textContent = `Знайдено товарів: ${filtered.length}`;
+
+            if (activeCategory !== 'all') {
+                const catNames = {
+                    smartphones: "Смартфони",
+                    computers: "Комп'ютери",
+                    laptops: "Ноутбуки",
+                    consoles: "Консолі",
+                    games: "Ігри",
+                    subscriptions: "Підписки та коди"
+                };
+                titleEl.textContent = catNames[activeCategory] || "Каталог товарів";
+            } else {
+                titleEl.textContent = translations[currentLang].all_categories_title;
+            }
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<p class="text-sm text-gray-400 py-8 col-span-3 text-center">Товарів за вашим запитом не знайдено.</p>`;
+                showMoreBtn.classList.add('hidden');
+                return;
+            }
+
+            const visibleItems = isShowingAll ? filtered : filtered.slice(0, displayLimit);
+
+            visibleItems.forEach(p => {
+                grid.appendChild(createProductCard(p, 'grid'));
+            });
+
+            if (!isShowingAll && filtered.length > displayLimit) {
+                showMoreBtn.classList.remove('hidden');
+            } else {
+                showMoreBtn.classList.add('hidden');
+            }
+        }
+
+        // Helper to calculate rating
+        function getProductRating(id) {
+            const reviews = reviewsData[id] || [];
+            if (reviews.length === 0) return { avg: "0.0", count: 0 };
+            const sum = reviews.reduce((acc, r) => acc + r.rating, 0);
+            return {
+                avg: (sum / reviews.length).toFixed(1),
+                count: reviews.length
+            };
+        }
+
+        // Create product card element
+        function createProductCard(p, mode) {
             const card = document.createElement('div');
-            card.className = 'product-card flex-shrink-0 w-64 bg-white dark:bg-zinc-900 border border-gray-200/80 dark:border-zinc-800 rounded-2xl p-4 flex flex-col justify-between relative shadow-sm cursor-pointer';
-            
             const hasDiscount = p.oldPrice > p.price;
+            const ratingInfo = getProductRating(p.id);
+
+            if (mode === 'horizontal') {
+                card.className = 'product-card flex-shrink-0 w-64 bg-white dark:bg-zinc-900 border border-gray-200/80 dark:border-zinc-800 rounded-2xl p-4 flex flex-col justify-between relative shadow-sm cursor-pointer';
+            } else {
+                card.className = 'product-card w-full bg-white dark:bg-zinc-900 border border-gray-200/80 dark:border-zinc-800 rounded-2xl p-4 flex flex-col justify-between relative shadow-sm cursor-pointer';
+            }
 
             card.innerHTML = `
                 <div>
-                    <div class="relative w-full h-36 bg-gray-100 dark:bg-zinc-800 rounded-xl overflow-hidden mb-3">
+                    <div class="relative w-full h-40 bg-gray-100 dark:bg-zinc-800 rounded-xl overflow-hidden mb-3">
                         <img src="${p.img}" alt="${p.name}" class="w-full h-full object-cover">
                         ${hasDiscount ? '<span class="absolute top-2 left-2 bg-black text-white dark:bg-white dark:text-black text-[10px] font-bold px-2 py-0.5 rounded-full">Sale</span>' : ''}
                         ${p.isNew ? '<span class="absolute top-2 left-2 bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">New</span>' : ''}
                     </div>
-                    
-                    <!-- Title with short and full format on hover -->
+
+                    <!-- Reviews Rating Badge -->
+                    <div class="flex items-center gap-1.5 mb-2 cursor-pointer" onclick="openReviewsModal(${p.id}, event)">
+                        <div class="flex text-amber-400 text-xs">
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <span class="text-xs font-bold text-gray-900 dark:text-white">${ratingInfo.avg}</span>
+                        <span class="text-[11px] text-gray-400">(${ratingInfo.count} ${translations[currentLang].reviews_btn})</span>
+                    </div>
+
                     <h3 class="font-medium text-xs text-gray-900 dark:text-white line-clamp-2 short-title h-8">${p.name}</h3>
                     <h3 class="font-medium text-xs text-gray-900 dark:text-white full-title hidden">${p.fullName}</h3>
                     
-                    <!-- Hidden details shown on hover -->
                     <p class="text-[11px] text-gray-500 dark:text-zinc-400 mt-2 full-details">${p.details}</p>
                 </div>
 
@@ -602,21 +850,26 @@
                         <span class="text-sm font-bold text-gray-900 dark:text-white">${p.price.toLocaleString()} ₴</span>
                         ${hasDiscount ? `<span class="text-[10px] text-gray-400 line-through">${p.oldPrice.toLocaleString()} ₴</span>` : ''}
                     </div>
-                    <button onclick="addToCart(${p.id}, event)" class="bg-black text-white dark:bg-white dark:text-black w-8 h-8 rounded-full flex items-center justify-center hover:opacity-80 transition-opacity text-xs" title="${currentLang === 'uk' ? 'Додати в кошик' : 'Add to cart'}">
-                        <i class="fa-solid fa-plus"></i>
-                    </button>
+                    <div class="flex items-center gap-2">
+                        <button onclick="openReviewsModal(${p.id}, event)" class="w-8 h-8 rounded-full border border-gray-200 dark:border-zinc-700 flex items-center justify-center text-gray-600 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors text-xs" title="Відгуки">
+                            <i class="fa-regular fa-comment"></i>
+                        </button>
+                        <button onclick="addToCart(${p.id}, event)" class="bg-black text-white dark:bg-white dark:text-black w-8 h-8 rounded-full flex items-center justify-center hover:opacity-80 transition-opacity text-xs" title="${translations[currentLang].add_to_cart}">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
                 </div>
             `;
             return card;
         }
 
-        // Scroll horizontal row
-        function scrollRow(rowId, distance) {
-            const row = document.getElementById(rowId);
-            row.scrollBy({ left: distance, behavior: 'smooth' });
+        // Show all products button action
+        function showAllProducts() {
+            isShowingAll = true;
+            renderCatalogPageProducts();
         }
 
-        // Filter category
+        // Filter by category
         function filterCategory(cat) {
             activeCategory = cat;
             document.querySelectorAll('.cat-btn').forEach(btn => {
@@ -625,13 +878,136 @@
             });
             event.currentTarget.classList.add('active', 'bg-gray-100', 'dark:bg-zinc-800', 'text-black', 'dark:text-white');
             event.currentTarget.classList.remove('text-gray-600', 'dark:text-zinc-400');
+
+            if (currentPage === 'home') {
+                navigateTo('all-categories');
+            } else {
+                isShowingAll = false;
+                renderProducts();
+            }
+        }
+
+        function resetCategoryFilter() {
+            activeCategory = 'all';
+            isShowingAll = false;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-gray-100', 'dark:bg-zinc-800', 'text-black', 'dark:text-white');
+                btn.classList.add('text-gray-600', 'dark:text-zinc-400');
+            });
             renderProducts();
         }
 
-        // Handle search input
+        function scrollRow(rowId, distance) {
+            document.getElementById(rowId).scrollBy({ left: distance, behavior: 'smooth' });
+        }
+
         function handleSearch(query) {
             searchQuery = query;
             renderProducts();
+        }
+
+        // Reviews System Modals & Logic
+        function openReviewsModal(productId, event) {
+            if (event) event.stopPropagation();
+            selectedProductIdForReview = productId;
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            document.getElementById('reviewProductImg').src = product.img;
+            document.getElementById('reviewProductName').textContent = product.fullName;
+
+            renderReviewsList(productId);
+            setRating(5);
+
+            document.getElementById('reviewsModal').classList.remove('hidden');
+        }
+
+        function toggleReviewsModal() {
+            document.getElementById('reviewsModal').classList.add('hidden');
+        }
+
+        function renderReviewsList(productId) {
+            const listEl = document.getElementById('reviewsList');
+            const avgEl = document.getElementById('reviewProductAvg');
+            const reviews = reviewsData[productId] || [];
+            const ratingInfo = getProductRating(productId);
+
+            avgEl.innerHTML = `<i class="fa-solid fa-star"></i> ${ratingInfo.avg} (${ratingInfo.count} відгуків)`;
+            listEl.innerHTML = '';
+
+            if (reviews.length === 0) {
+                listEl.innerHTML = `<p class="text-xs text-gray-400 py-6 text-center">${translations[currentLang].no_reviews}</p>`;
+                return;
+            }
+
+            reviews.forEach(r => {
+                const item = document.createElement('div');
+                item.className = 'p-3 bg-gray-50 dark:bg-zinc-800/40 rounded-2xl border border-gray-100 dark:border-zinc-800 text-xs';
+                
+                let starsHtml = '';
+                for (let i = 1; i <= 5; i++) {
+                    starsHtml += `<i class="fa-solid fa-star ${i <= r.rating ? 'text-amber-400' : 'text-gray-300 dark:text-zinc-700'}"></i>`;
+                }
+
+                item.innerHTML = `
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="font-semibold text-gray-900 dark:text-white">${r.author}</span>
+                        <span class="text-[10px] text-gray-400">${r.date}</span>
+                    </div>
+                    <div class="flex text-[10px] gap-0.5 mb-1.5">${starsHtml}</div>
+                    <p class="text-gray-600 dark:text-zinc-300">${r.text}</p>
+                `;
+                listEl.appendChild(item);
+            });
+        }
+
+        function setRating(val) {
+            selectedStarRating = val;
+            const stars = document.querySelectorAll('#starRatingSelector .select-star');
+            stars.forEach((star, index) => {
+                if (index < val) {
+                    star.classList.remove('text-gray-300', 'dark:text-zinc-700');
+                    star.classList.add('text-amber-400');
+                } else {
+                    star.classList.remove('text-amber-400');
+                    star.classList.add('text-gray-300', 'dark:text-zinc-700');
+                }
+            });
+        }
+
+        function submitReview() {
+            const nameInput = document.getElementById('reviewerName');
+            const commentInput = document.getElementById('reviewComment');
+
+            const author = nameInput.value.trim() || "Анонім";
+            const text = commentInput.value.trim();
+
+            if (!text) {
+                showMsg("Будь ласка, введіть текст відгуку");
+                return;
+            }
+
+            if (!reviewsData[selectedProductIdForReview]) {
+                reviewsData[selectedProductIdForReview] = [];
+            }
+
+            const today = new Date();
+            const dateStr = `${String(today.getDate()).padStart(2, '0')}.${String(today.getMonth() + 1).padStart(2, '0')}.${today.getFullYear()}`;
+
+            reviewsData[selectedProductIdForReview].unshift({
+                author: author,
+                rating: selectedStarRating,
+                date: dateStr,
+                text: text
+            });
+
+            localStorage.setItem('store_reviews', JSON.stringify(reviewsData));
+
+            nameInput.value = '';
+            commentInput.value = '';
+            renderReviewsList(selectedProductIdForReview);
+            renderProducts();
+            showMsg(translations[currentLang].review_added);
         }
 
         // Quick add promo item
@@ -648,13 +1024,11 @@
             addToCartObj(promoProduct);
         }
 
-        // Cart management
+        // Cart functions
         function addToCart(id, event) {
-            event.stopPropagation();
+            if (event) event.stopPropagation();
             const product = products.find(p => p.id === id);
-            if (product) {
-                addToCartObj(product);
-            }
+            if (product) addToCartObj(product);
         }
 
         function addToCartObj(product) {
@@ -701,7 +1075,6 @@
             namesListEl.innerHTML = '';
 
             cart.forEach((item, index) => {
-                // Left column: Cart Item Cards with +/- buttons
                 const cardEl = document.createElement('div');
                 cardEl.className = 'flex items-center justify-between gap-3 p-3 bg-gray-50 dark:bg-zinc-800/50 rounded-2xl border border-gray-100 dark:border-zinc-800';
                 cardEl.innerHTML = `
@@ -726,7 +1099,6 @@
                 `;
                 cardsListEl.appendChild(cardEl);
 
-                // Right column: Simple names list
                 const nameEl = document.createElement('div');
                 nameEl.className = 'flex items-center justify-between py-1.5 border-b border-gray-200/50 dark:border-zinc-800/50 text-gray-800 dark:text-zinc-200';
                 nameEl.innerHTML = `
@@ -738,8 +1110,7 @@
         }
 
         function toggleCartModal() {
-            const modal = document.getElementById('cartModal');
-            modal.classList.toggle('hidden');
+            document.getElementById('cartModal').classList.toggle('hidden');
         }
 
         function checkout() {
@@ -750,7 +1121,6 @@
             toggleCartModal();
         }
 
-        // Notification message box
         function showMsg(text) {
             const box = document.getElementById('msgBox');
             const textEl = document.getElementById('msgText');
@@ -761,7 +1131,6 @@
             }, 2500);
         }
 
-        // Theme toggle with persistent storage
         function toggleTheme() {
             const html = document.documentElement;
             const icon = document.getElementById('themeIcon');
@@ -778,13 +1147,11 @@
             }
         }
 
-        // Language toggle
         function toggleLang() {
             currentLang = currentLang === 'uk' ? 'en' : 'uk';
             document.getElementById('langBtn').textContent = currentLang.toUpperCase();
             document.documentElement.lang = currentLang;
 
-            // Update static i18n texts
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (translations[currentLang][key]) {
@@ -792,13 +1159,8 @@
                 }
             });
 
-            document.getElementById('searchInput').placeholder = "search";
             renderProducts();
             updateCartUI();
-        }
-
-        function scrollToSales() {
-            document.getElementById('salesRow').scrollIntoView({ behavior: 'smooth' });
         }
     </script>
 </body>
