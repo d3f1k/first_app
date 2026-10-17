@@ -99,9 +99,10 @@
             <div class="bg-white dark:bg-zinc-900 border border-gray-200/80 dark:border-zinc-800 rounded-2xl p-4 shadow-sm">
                 <h3 class="font-semibold text-sm mb-3 px-2 text-gray-900 dark:text-white" data-i18n="categories_title">Категорії</h3>
                 <nav class="flex flex-col gap-1" id="categoryNav">
-                    <button onclick="goToHome()" class="cat-home-btn flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium text-gray-600 dark:text-zinc-400 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-all text-left">
+                    <!-- Замінено кнопку Головна на посилання на index.html -->
+                    <a href="index.html" class="cat-home-btn flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium text-gray-600 dark:text-zinc-400 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-all text-left">
                         <i class="fa-solid fa-house w-5 text-center"></i> <span data-i18n="cat_home">Головна</span>
-                    </button>
+                    </a>
                     <button onclick="void(0)" class="cat-btn flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium text-gray-600 dark:text-zinc-400 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-all text-left cursor-default">
                         <i class="fa-solid fa-list w-5 text-center"></i> <span data-i18n="cat_all_categories">Всі категорії</span>
                     </button>
